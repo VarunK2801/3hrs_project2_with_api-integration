@@ -1,7 +1,11 @@
 import React from 'react';
 import classes from './Mainheader.module.css';
+import {useHistory} from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../Context/AuthContext';
 
 function Mainheader() {
+  const {logout}=useContext(AuthContext)
   return (
     <>
     <header className={classes.header}>
@@ -11,7 +15,7 @@ function Mainheader() {
                 <li><a href="#">Login</a></li>
                 <li><a href='#'>Profile</a></li>
                 <li>
-                    <button>Logout</button>
+                    <button onClick={logout}>Logout</button>
                 </li>
             </ul>
         </nav>
