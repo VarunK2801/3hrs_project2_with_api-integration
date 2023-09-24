@@ -5,17 +5,21 @@ import { useContext } from 'react';
 import AuthContext from '../Context/AuthContext';
 
 function Mainheader() {
-  const {logout}=useContext(AuthContext)
+  const {logout,isLoggedIn}=useContext(AuthContext)
   return (
     <>
     <header className={classes.header}>
         <div className={classes.logo}><a href='#'>REACT HEADER</a></div>
         <nav>
             <ul>
-                <li><a href="#">Login</a></li>
-                <li><a href='#'>Profile</a></li>
                 <li>
-                    <button onClick={logout}>Logout</button>
+                  {!isLoggedIn && <a href="#">Login</a>}
+                </li>
+                <li> 
+                  {isLoggedIn && <a href='#'>Profile</a>}
+                </li>
+                <li>
+                   {isLoggedIn && <button onClick={logout}>Logout</button>}
                 </li>
             </ul>
         </nav>
