@@ -19,7 +19,7 @@ function AuthForm() {
 const submitHandler = async (event)=>{
     // in try block if it encounters any error , it will automatically stop the execution of the program it will throw catch block error
     try {
-            event.preventDefault();
+        event.preventDefault();
         const enteredMail = inputMailRef.current.value;
         const enteredPass = inputPassRef.current.value;
         setIsLoading(true);
@@ -48,13 +48,14 @@ const submitHandler = async (event)=>{
         //failure condition
         if (!response.ok){
             const errorData = await response.json()
-            console.log(errorData.error.message, 'in if loop')
+            console.log(errorData, 'in if loop')
             throw new Error(errorData.error.message);
         }
         //success condition 
         const data = await response.json()
         console.log(data,'sucess')
-        authCtx.login(data.idToken,data.email);
+        isLogin && authCtx.login(data.idToken,data.email);
+        alert(`${isLogin ? "Login Successfull" : "Account Created"}`)
         isLogin && history.replace('/afterlogin')
        
         

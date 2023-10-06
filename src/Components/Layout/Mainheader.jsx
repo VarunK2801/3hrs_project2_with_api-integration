@@ -16,7 +16,7 @@ function Mainheader() {
                   {!isLoggedIn && <a href="#">Login</a>}
                 </li>
                 <li> 
-                  {isLoggedIn && <a href='#'>Profile</a>}
+                   {isLoggedIn && <a href='#'>Profile</a>}
                 </li>
                 <li>
                    {isLoggedIn && <button onClick={logout}>Logout</button>}

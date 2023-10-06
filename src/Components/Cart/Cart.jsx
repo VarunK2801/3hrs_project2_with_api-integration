@@ -1,13 +1,15 @@
 import React, { useContext } from 'react'
 import Modal from '../UI/Modal'
-import CartContext from '../Context/CartContext'
 import classes from './Cart.module.css'
+import CartContext from '../Context/CartContext'
 
 function Cart(props) {
     const menuCtx = useContext(CartContext)
     const totalPrice = menuCtx.cart.reduce((sum,element)=>
       sum + element.price *element.quantity
   ,0)
+    
+
   return (
     <Modal onClose = {props.onClose}>
         <h1>cart</h1>

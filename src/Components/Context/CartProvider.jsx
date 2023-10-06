@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CartContext from './CartContext'
+import AuthContext from './AuthContext';
 
 function CartProvider(props) {
     const [cart, setCart] = useState([])
    const [menuItems, setMenuItems]=useState([])
+   const authCtx = useContext(AuthContext);
+   const userEmail = authCtx.userEmail;
+   let userName = userEmail && userEmail.split("@")[0];
 
     useEffect(()=>{
       const fetchData = async ()=>{
         try {
-          const response = await fetch('https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/menu.json')
+          const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/menu/${userName}.json`)
           const data = await response.json()
           console.log(data ,'in useEffect')
           const loadedData =[];
@@ -29,7 +33,7 @@ function CartProvider(props) {
     useEffect(()=>{
       const fetchData = async ()=>{
         try {
-          const response = await fetch('https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart.json')
+          const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart/${userName}.json`)
           const data = await response.json()
           console.log(data ,'in useEffect')
           const loadedData =[];
@@ -64,7 +68,7 @@ function CartProvider(props) {
         const updatedMenuItems =[...menuItems];
         updatedMenuItems[menuItemIndex] = updatedMenu;
         setMenuItems(updatedMenuItems)
-        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/menu/${menuItem.id}.json`,{
+        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/menu/${userName}/${menuItem.id}.json`,{
           method : "PUT",
           body : JSON.stringify(updatedMenu),
           headers : {
@@ -86,7 +90,7 @@ function CartProvider(props) {
         }
         const updatedCart = [...cart];
         updatedCart[existingItemIndex] = updatedItem;
-        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart/${updatedItem.id}.json`,{
+        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart/${userName}/${updatedItem.id}.json`,{
           method :'PUT',
           body : JSON.stringify(updatedItem),
           headers : {
@@ -102,7 +106,7 @@ function CartProvider(props) {
           ...newItem,
           quantity : 1
         };
-        const response = await fetch('https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart.json',{
+        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart/${userName}.json`,{
           method: "POST",
           body : JSON.stringify(updatedItem),
           headers : {
@@ -133,7 +137,7 @@ function CartProvider(props) {
       }
       const updatedMenuItems = [...menuItems];
       updatedMenuItems[menuItemIndex] = updatedMenu;
-      const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/menu/${updatedMenu.id}.json`,{
+      const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/menu/${userName}/${updatedMenu.id}.json`,{
         method: "PUT",
         body : JSON.stringify(updatedMenu),
         headers : {
@@ -151,7 +155,7 @@ function CartProvider(props) {
         const updatedItem = cart.filter(
           (item) => item.ItemName !== deletingItem.ItemName
         );
-        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart/${deletingItem.id}.json`,{
+        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart/${userName}/${deletingItem.id}.json`,{
           method: "DELETE",
           body : JSON.stringify(deletingItem),
           headers : {
@@ -170,7 +174,7 @@ function CartProvider(props) {
         }
         const updatedCart = [...cart];
         updatedCart[deletingItemIndex] = updatedItem;
-        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart/${updatedItem.id}.json`,{
+        const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/cart/${userName}/${updatedItem.id}.json`,{
           method: "PUT",
           body : JSON.stringify(updatedItem),
           headers : {
@@ -192,7 +196,7 @@ function CartProvider(props) {
    const addToMenu = async (newItem) => {
     try {
       
-      const response = await fetch('https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/menu.json',{
+      const response = await fetch(`https://react-htttps-copy-default-rtdb.firebaseio.com/medicalshop/menu/${userName}.json`,{
         method: "POST",
         body : JSON.stringify(newItem),
         headers : {
